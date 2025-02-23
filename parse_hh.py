@@ -9,13 +9,7 @@ def get_html(url: str):
         },
     )
 
-
-# print(response.text)
-# with open("vacancy.html", "w") as f:
-#     f.write(response.text)
-
 from bs4 import BeautifulSoup
-
 
 def extract_vacancy_data(html):
     soup = BeautifulSoup(html, "html.parser")
@@ -31,16 +25,9 @@ def extract_vacancy_data(html):
     # Извлечение опыта работы
     experience = soup.find("span", {"data-qa": "vacancy-experience"}).text.strip()
 
-    # Извлечение типа занятости и режима работы
-    employment_mode = soup.find(
-        "p", {"data-qa": "vacancy-view-employment-mode"}
-    ).text.strip()
-
     # Извлечение компании
     company = soup.find("a", {"data-qa": "vacancy-company-name"}).text.strip()
 
-    # Извлечение местоположения
-    location = soup.find("p", {"data-qa": "vacancy-view-location"}).text.strip()
 
     # Извлечение описания вакансии
     description = soup.find("div", {"data-qa": "vacancy-description"}).text.strip()
@@ -60,8 +47,7 @@ def extract_vacancy_data(html):
 **Компания:** {company}
 **Зарплата:** {salary}
 **Опыт работы:** {experience}
-**Тип занятости и режим работы:** {employment_mode}
-**Местоположение:** {location}
+
 
 ## Описание вакансии
 {description}
@@ -123,4 +109,5 @@ def get_candidate_info(url: str):
 
 def get_job_description(url: str):
     response = get_html(url)
+    print(response.text)
     return extract_vacancy_data(response.text)
